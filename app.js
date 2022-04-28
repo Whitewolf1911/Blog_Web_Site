@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
+  
   res.render("home", { startingContent: homeStartingContent, posts: posts });
 });
 
@@ -51,12 +52,14 @@ app.get("/posts/:postName", function (req, res) {
   
   posts.forEach((element) => {
     const storedTitle = _.lowerCase(element.title) ;
-     
+    const storedContent = element.content;
     if (storedTitle === requestedTitle) {
-      console.log("Match Found");
+      res.render("post", {title : storedTitle , 
+      content : storedContent});
+
     }
     else{
-      console.log("no match");
+      res.render("post", {wantedTitle: "No match found"});
     }
   });
 });
